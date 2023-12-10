@@ -24,7 +24,7 @@ def replace_text_with_digits(s):
         min_locn = len(s) + 1
         replacement = ""
         for i in element:
-            locn = s.rfind(i)
+            locn = s.find(i)
             if locn != -1 and locn < min_locn:
                 replacement = i
                 min_locn = locn
@@ -34,6 +34,22 @@ def replace_text_with_digits(s):
         else:#
             s = s.replace(replacement, impl[replacement], 1)
             changes = False
+        max_locn = 0
+        replacement = ""
+        for i in element:
+            locn = s.find(i, max_locn)
+            if locn != -1 and locn > max_locn:
+                replacement = i
+                max_locn = locn
+                changes = True
+        if not changes:
+            break
+        else:
+            items = s.split(replacement)
+            
+            s = s.replace(replacement, impl[replacement])
+
+            break
     return s
 
 # Example usage
@@ -46,7 +62,7 @@ print(extract_digits(s))  # Output: 77
 
 print(extract_digits("abd1234cde3456sdd"))  # Output: 77
 
-with open('input3.txt','r') as f:
+with open('input.txt','r') as f:
     lines = [line.strip() for line in f.readlines()]
 
 print(lines)
@@ -56,6 +72,14 @@ t = [replace_text_with_digits(x) for x in lines]
 for i in range(len(lines)):
     print(f"{lines[i]} - {t[i]}")
 
+sum = 0
+for line in lines:
+    details = extract_digits(line)
+    # print(f"{sum}: {line} - {replace_text_with_digits(line)} - {details}")
+    sum += int(details)
+
+old = sum
+
 # Example usage
 sum = 0
 for line in lines:
@@ -63,4 +87,6 @@ for line in lines:
     print(f"{sum}: {line} - {replace_text_with_digits(line)} - {details}")
     sum += int(details)
 
-print(sum)
+print(f"{old},{sum}")
+
+print(extract_digits(replace_text_with_digits("twofivesevenfivesixonenine5seven")))
