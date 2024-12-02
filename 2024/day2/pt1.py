@@ -18,7 +18,9 @@ def main():
 
 def increasing(r):
     for i in range(1, len(r)-1):
-        if r[i] >= r[i+1]:
+        if r[i] == r[i+1]:
+            return 0
+        elif r[i] < r[i+1]:
             return 0
         elif (r[i+1] - r[i]) > 3:
             return 0
